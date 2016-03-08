@@ -1,5 +1,7 @@
 <html xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:body>
 	<h:messages />
 	<h:form>
@@ -21,9 +23,12 @@
 			<h:inputText value="#{adminBooksBean.product.price}" />
 		</div>
 		<div>
+			<h:outputLabel>Data de lançamento</h:outputLabel>
+			<h:inputText value="#{adminBooksBean.product.releaseDate}" pt:type="date"/>							
+		</div>
+		<div>
 			<h:outputLabel>Autores</h:outputLabel>
-			<h:selectManyListbox value="#{adminBooksBean.selectedAuthorsIds}"
-				converter="javax.faces.Integer">
+			<h:selectManyListbox value="#{adminBooksBean.product.authors}">
 				<f:selectItems value="#{adminBooksBean.authors}" var="author"
 					itemLabel="#{author.name}" itemValue="#{author.id}" />
 			</h:selectManyListbox>

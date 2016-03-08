@@ -26,7 +26,7 @@ public class AdminBooksBean {
 
 	private Book product = new Book();// PQ nao usar injeção de dependencias?
 	@Inject
-	private BookDAO bookDAO;
+	private BookDAO productDAO;
 	@Inject
 	private AuthorDAO authorDAO;
 	@Inject
@@ -54,10 +54,8 @@ public class AdminBooksBean {
 
 	@Transactional
 	public String save() {
-		populateBookAuthor();
-		bookDAO.save(product);
-		clearObjects();
-
+		productDAO.save(product);
+		
 		messagesHelper.addFlash(new FacesMessage("Livro gravado com sucesso"));
 
 		// faz com que o JSF retorne status 302 e faz um redirect
