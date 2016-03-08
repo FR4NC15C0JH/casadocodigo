@@ -22,7 +22,8 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 public class Book {
 	
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@NotBlank//verifica se a string é diferente de null e se também não é vazia
 	@NotNull
