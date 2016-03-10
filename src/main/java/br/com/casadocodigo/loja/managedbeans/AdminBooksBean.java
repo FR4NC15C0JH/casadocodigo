@@ -10,12 +10,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.flow.builder.ReturnBuilder;
 import javax.inject.Inject;
+import javax.servlet.http.Part;
 import javax.transaction.Transactional;
 
 import org.jboss.security.annotation.Authorization;
 
 import br.com.casadocodigo.loja.daos.AuthorDAO;
 import br.com.casadocodigo.loja.daos.BookDAO;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.infra.MessagesHelper;
 import br.com.casadocodigo.loja.models.Author;
 import br.com.casadocodigo.loja.models.Book;
@@ -33,6 +35,17 @@ public class AdminBooksBean {
 	private MessagesHelper messagesHelper;
 	private List<Integer> selectedAuthorsIds = new ArrayList<>();
 	private List<Author> authors = new ArrayList<Author>();
+	private Part summary;//guarda o arquivo enviado do formulario
+	@Inject
+	private FileSaver fileSaver;
+	
+	public Part getSummary() {
+		return summary;
+	}
+
+	public void setSummary(Part summary) {
+		this.summary = summary;
+	}
 
 	@PostConstruct
 	// executa apos o construtor
@@ -54,6 +67,8 @@ public class AdminBooksBean {
 
 	@Transactional
 	public String save() {
+		String summaryPath = fileSaver.write("summaries", summary);
+		
 		productDAO.save(product);
 		
 		messagesHelper.addFlash(new FacesMessage("Livro gravado com sucesso"));

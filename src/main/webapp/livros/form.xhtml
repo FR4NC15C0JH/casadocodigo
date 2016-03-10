@@ -4,7 +4,9 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:body>
 	<h:messages />
-	<h:form>
+	<!--  o atributo enctype serve justamente para indicarmos como queremos mandar os dados do navegador para o
+servidor, e o multipart/form-data é o jeito utilizado quando precisamos transmitir arquivos. -->
+	<h:form enctype="multipart/form-data">
 		<div>
 			<h:outputLabel>Titulo</h:outputLabel>
 			<h:inputText value="#{adminBooksBean.product.title}" />
@@ -24,15 +26,26 @@
 		</div>
 		<div>
 			<h:outputLabel>Data de lançamento</h:outputLabel>
-			<h:inputText value="#{adminBooksBean.product.releaseDate}" pt:type="date"/>							
+			<h:inputText value="#{adminBooksBean.product.releaseDate}"
+				pt:type="date" />
 		</div>
 		<div>
 			<h:outputLabel>Autores</h:outputLabel>
-			<h:selectManyListbox value="#{adminBooksBean.product.authors}">
-				<f:selectItems value="#{adminBooksBean.authors}" var="author"
-					itemLabel="#{author.name}" itemValue="#{author.id}" />
+			<h:selectManyListbox value="#{adminBooksBean.product.authors}"
+				converter="entityConverter">
+				<f:selectItems value="#{authorsList.get()}" var="author"
+					itemLabel="#{author.name}" itemValue="#{author}" />
 			</h:selectManyListbox>
 		</div>
+		<div>
+			<h:outputLabel value="Sumário do livro" />
+			<h:inputFile id="summary" value="#{adminBooksBean.summary}"
+				label="Sumário do livro" />
+		</div>
+		<!--<div>
+			<h:outputLabel value="Sumário do livro"/>
+			<h:inputFile id="summary" value="#{adminBooksBean.summary}" label="Sumário do livro"/>
+		</div>-->
 		<h:commandButton value="Gravar" action="#{adminBooksBean.save}" />
 	</h:form>
 </h:body>
